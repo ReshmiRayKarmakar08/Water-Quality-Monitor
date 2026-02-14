@@ -1,41 +1,33 @@
-import { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    const res = await fetch("http://127.0.0.1:8000/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-
-    const data = await res.json();
-    localStorage.setItem("token", data.accessToken);
-
-    alert("Login successful");
-  };
+const Login = () => {
+  const navigate = useNavigate();
 
   return (
-    <form onSubmit={handleLogin}>
-      <h3>Login</h3>
-
-      <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-      <br />
-
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <br />
-
-      <button type="submit">Login</button>
-    </form>
+    <div className="login-screen">
+      <div className="login-card glass-card">
+        <div className="login-brand">
+          <img src="/logo192.png" alt="Logo" className="brand-logo" />
+          <h1>Water Quality Monitor</h1>
+          <p className="brand-tagline">Environmental Intelligence</p>
+        </div>
+        
+        <form className="login-form" onSubmit={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
+          <h3>Login</h3>
+          <div className="form-group">
+            <label>Your email</label>
+            <input type="email" placeholder="admin@123" required />
+          </div>
+          <div className="form-group">
+            <label>Your password</label>
+            <input type="password" placeholder="••••••••" required />
+          </div>
+          <button type="submit" className="blue-submit-btn">Submit</button>
+        </form>
+      </div>
+    </div>
   );
-}
+};
 
 export default Login;
